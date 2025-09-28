@@ -1,0 +1,7 @@
+.tmp/
+.idea/
+target/
+postgres/
+
+gengo.sum
+.DS_Store
