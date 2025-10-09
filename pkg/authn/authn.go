@@ -118,13 +118,14 @@ func (a *Authn) getToken(ctx context.Context) (*openidv1.Token, error) {
 		}
 
 		if resp.StatusCode == http.StatusUnauthorized {
-			fmt.Println(resp.Header)
-
 			if wwwAuthenticate := resp.Header.Get("WWW-Authenticate"); wwwAuthenticate != "" {
-				fmt.Println(wwwAuthenticate)
-
 				parsed, err := openidv1.ParseWwwAuthenticate(wwwAuthenticate)
-				if err == nil && parsed.Params != nil {
+				if err != nil {
+					return nil, &openidv1.ErrInvalidToken{
+						Reason: err,
+					}
+				}
+				if parsed.Params != nil {
 					realm, ok := parsed.Params["realm"]
 					if ok && realm != "" {
 						realmUrl, err := url.Parse(realm)
@@ -141,10 +142,10 @@ func (a *Authn) getToken(ctx context.Context) (*openidv1.Token, error) {
 						}
 					}
 				}
-			}
 
-			return nil, &openidv1.ErrInvalidToken{
-				Reason: errors.New(string(data)),
+				return nil, &openidv1.ErrInvalidToken{
+					Reason: fmt.Errorf("invalid WWW-Authenticate: %s", wwwAuthenticate),
+				}
 			}
 		}
 
