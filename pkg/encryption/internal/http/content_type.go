@@ -27,8 +27,12 @@ func (a ContentType) Match(ct ContentType) (string, map[string]string, bool) {
 
 	if amt == "*/*+encrypted" || amt == cmt+"+encrypted" {
 		_, params, _ := mime.ParseMediaType(string(ct))
-		_, params1, _ := mime.ParseMediaType(string(a))
-		params["protected"] = params1["protected"]
+		if params == nil {
+			params = map[string]string{}
+		}
+		if _, params1, _ := mime.ParseMediaType(string(a)); params1 != nil {
+			params["protected"] = params1["protected"]
+		}
 		return cmt + "+encrypted", params, true
 	}
 	return "", nil, false
