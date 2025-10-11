@@ -155,6 +155,12 @@ func (s *jwtValidator) Validate(ctx context.Context, tokStr string, validates ..
 }
 
 func doValidate(keySet jwk.Set, tokStr string, validates ...ValidateOption) (Token, error) {
+	if tokStr == "" {
+		return nil, &openidv1.ErrInvalidToken{
+			Reason: errors.New("token is empty"),
+		}
+	}
+
 	tok, err := jwt.ParseString(tokStr, jwt.WithKeySet(keySet))
 	if err != nil {
 		return nil, &openidv1.ErrInvalidToken{

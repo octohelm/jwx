@@ -9,7 +9,7 @@ tool (
 
 require (
 	github.com/innoai-tech/infra v0.0.0-20250928074913-04e5ca3fbf27
-	github.com/octohelm/courier v0.0.0-20250928072148-3fde42c87ab1
+	github.com/octohelm/courier v0.0.0-20251010073531-57524a0631a3
 	github.com/octohelm/enumeration v0.0.0-20250115091102-ddf41951d733
 	github.com/octohelm/gengo v0.0.0-20250928050614-7aa009184957
 	github.com/octohelm/objectkind v0.0.0-20250928052628-a043ae7f7b40
@@ -19,7 +19,6 @@ require (
 
 require (
 	cuelang.org/go v0.14.1
-	github.com/go-courier/logr v0.4.0
 	github.com/go-json-experiment/json v0.0.0-20250910080747-cc2cfa0554c3
 	github.com/lestrrat-go/jwx/v2 v2.1.6
 	golang.org/x/crypto v0.43.0

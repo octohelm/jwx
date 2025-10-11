@@ -4,6 +4,10 @@ DON'T EDIT THIS FILE
 */
 package v1
 
+func (*Authorization) RuntimeDoc(names ...string) ([]string, bool) {
+	return []string{}, true
+}
+
 func (v *AuthorizationCodeGrant) RuntimeDoc(names ...string) ([]string, bool) {
 	if len(names) > 0 {
 		switch names[0] {
@@ -528,6 +532,21 @@ func (v *UserInfo) RuntimeDoc(names ...string) ([]string, bool) {
 	return []string{
 		"https://openid.net/specs/openid-connect-core-1_0.html#UserInfoResponse",
 	}, true
+}
+
+func (v *WwwAuthenticate) RuntimeDoc(names ...string) ([]string, bool) {
+	if len(names) > 0 {
+		switch names[0] {
+		case "AuthType":
+			return []string{}, true
+		case "Params":
+			return []string{}, true
+
+		}
+
+		return nil, false
+	}
+	return []string{}, true
 }
 
 // nolint:deadcode,unused
