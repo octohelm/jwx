@@ -2,7 +2,6 @@ package sign
 
 import (
 	"context"
-	"encoding/base64"
 	"errors"
 	"slices"
 	"strconv"
@@ -13,6 +12,7 @@ import (
 	"github.com/lestrrat-go/jwx/v2/jwt"
 	"github.com/octohelm/jwx/internal/pkg/keygen"
 	"github.com/octohelm/objectkind/pkg/idgen"
+	"github.com/octohelm/x/datauri"
 
 	pkgjwk "github.com/octohelm/jwx/pkg/jwk"
 )
@@ -56,8 +56,8 @@ type Token = jwt.Token
 type JWTSigner struct {
 	// jwt token 签发方
 	Issuer string `flag:",omitzero"`
-	// jwt 签发私钥 (base64 std encoding 格式)
-	PrivateKey string `flag:",omitzero,secret"`
+	// jwt 签发私钥
+	PrivateKey datauri.DataURI `flag:",omitzero,secret"`
 
 	privateKey jwk.Key
 	idgen      idgen.Typed[uint64]
@@ -67,12 +67,11 @@ type JWTSigner struct {
 
 func (s *JWTSigner) SetDefaults() {
 	if s.Issuer == "" {
-		s.Issuer = "algo.industai.com"
+		s.Issuer = "octohelm"
 	}
 
-	if s.PrivateKey == "" {
-		data, _ := keygen.NewRSAPrimaryKeyREM()
-		s.PrivateKey = base64.StdEncoding.EncodeToString(data)
+	if s.PrivateKey.IsZero() {
+		s.PrivateKey.Data, _ = keygen.NewRSAPrimaryKeyREM()
 	}
 }
 
@@ -81,12 +80,11 @@ func (s *JWTSigner) beforeInit(ctx context.Context) error {
 		return nil
 	}
 
-	pk, err := base64.StdEncoding.DecodeString(s.PrivateKey)
-	if err != nil {
-		return err
+	if s.PrivateKey.IsZero() {
+		return errors.New("no rsa private key provided")
 	}
 
-	rsaPrivateKey, err := keygen.FromRawREM(pk, map[string]any{
+	rsaPrivateKey, err := keygen.FromRawREM(s.PrivateKey.Data, map[string]any{
 		jwk.AlgorithmKey: jwa.RS256,
 		jwk.KeyUsageKey:  jwk.ForSignature,
 	})

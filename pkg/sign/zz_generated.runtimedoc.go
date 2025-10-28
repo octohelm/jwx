@@ -13,7 +13,7 @@ func (v *JWTSigner) RuntimeDoc(names ...string) ([]string, bool) {
 			}, true
 		case "PrivateKey":
 			return []string{
-				"jwt 签发私钥 (base64 std encoding 格式)",
+				"jwt 签发私钥",
 			}, true
 
 		}

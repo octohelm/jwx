@@ -1,6 +1,6 @@
 module github.com/octohelm/jwx
 
-go 1.25.1
+go 1.25.3
 
 tool (
 	github.com/octohelm/jwx/internal/cmd/devtool
@@ -8,18 +8,18 @@ tool (
 )
 
 require (
-	github.com/innoai-tech/infra v0.0.0-20250928074913-04e5ca3fbf27
+	github.com/innoai-tech/infra v0.0.0-20251015094202-0434a76eb4dd
 	github.com/octohelm/courier v0.0.0-20251010073531-57524a0631a3
 	github.com/octohelm/enumeration v0.0.0-20250115091102-ddf41951d733
 	github.com/octohelm/gengo v0.0.0-20250928050614-7aa009184957
 	github.com/octohelm/objectkind v0.0.0-20250928052628-a043ae7f7b40
-	github.com/octohelm/storage v0.0.0-20250924030627-0d8370dd34d0
-	github.com/octohelm/x v0.0.0-20251009020353-8be04f917d90
+	github.com/octohelm/storage v0.0.0-20251020084316-47d86f6f3249
+	github.com/octohelm/x v0.0.0-20251028032356-02d7b8d1c824
 )
 
 require (
-	cuelang.org/go v0.14.1
-	github.com/go-json-experiment/json v0.0.0-20250910080747-cc2cfa0554c3
+	cuelang.org/go v0.14.2
+	github.com/go-json-experiment/json v0.0.0-20251027170946-4849db3c2f7e
 	github.com/lestrrat-go/jwx/v2 v2.1.6
 	golang.org/x/crypto v0.43.0
 )
@@ -46,5 +46,5 @@ require (
 	golang.org/x/sys v0.37.0 // indirect
 	golang.org/x/text v0.30.0 // indirect
 	golang.org/x/tools v0.38.0 // indirect
-	mvdan.cc/gofumpt v0.9.1 // indirect
+	mvdan.cc/gofumpt v0.9.2 // indirect
 )

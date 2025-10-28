@@ -5,7 +5,7 @@ import (
 	"crypto/rand"
 	"crypto/rsa"
 	"crypto/sha1"
-	"encoding/base64"
+	"errors"
 	"fmt"
 	"time"
 
@@ -15,6 +15,7 @@ import (
 	"github.com/octohelm/jwx/pkg/encryption/internal"
 	encryptionhttp "github.com/octohelm/jwx/pkg/encryption/internal/http"
 	pkgjwk "github.com/octohelm/jwx/pkg/jwk"
+	"github.com/octohelm/x/datauri"
 	"github.com/octohelm/x/sync/singleflight"
 )
 
@@ -31,7 +32,7 @@ type (
 // +gengo:injectable
 type Encrypter struct {
 	// 加密传输用私钥
-	PrivateKey string `flag:",omitzero,secret"`
+	PrivateKey datauri.DataURI `flag:",omitzero,secret"`
 
 	privateKey jwk.Key
 	publicKey  jwk.Key
@@ -64,9 +65,8 @@ func (enc *Encrypter) Decrypt(ctx context.Context, base64URLEncoded []byte) ([]b
 }
 
 func (enc *Encrypter) SetDefaults() {
-	if enc.PrivateKey == "" {
-		data, _ := keygen.NewRSAPrimaryKeyREM()
-		enc.PrivateKey = base64.StdEncoding.EncodeToString(data)
+	if enc.PrivateKey.IsZero() {
+		enc.PrivateKey.Data, _ = keygen.NewRSAPrimaryKeyREM()
 	}
 }
 
@@ -79,12 +79,11 @@ func (enc *Encrypter) afterInit(ctx context.Context) error {
 		return nil
 	}
 
-	pk, err := base64.StdEncoding.DecodeString(enc.PrivateKey)
-	if err != nil {
-		return err
+	if enc.PrivateKey.IsZero() {
+		return errors.New("no rsa private key provided")
 	}
 
-	rsaPrivateKey, err := keygen.FromRawREM(pk, map[string]any{
+	rsaPrivateKey, err := keygen.FromRawREM(enc.PrivateKey.Data, map[string]any{
 		jwk.AlgorithmKey: jwa.RSA_OAEP,
 		jwk.KeyUsageKey:  jwk.ForEncryption,
 	})
