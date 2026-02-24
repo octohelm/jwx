@@ -1,6 +1,6 @@
 module github.com/octohelm/jwx
 
-go 1.25.3
+go 1.26.0
 
 tool (
 	github.com/octohelm/jwx/internal/cmd/devtool
@@ -8,20 +8,20 @@ tool (
 )
 
 require (
-	github.com/innoai-tech/infra v0.0.0-20251015094202-0434a76eb4dd
-	github.com/octohelm/courier v0.0.0-20251010073531-57524a0631a3
-	github.com/octohelm/enumeration v0.0.0-20250115091102-ddf41951d733
-	github.com/octohelm/gengo v0.0.0-20250928050614-7aa009184957
-	github.com/octohelm/objectkind v0.0.0-20250928052628-a043ae7f7b40
-	github.com/octohelm/storage v0.0.0-20251020084316-47d86f6f3249
-	github.com/octohelm/x v0.0.0-20251028032356-02d7b8d1c824
+	github.com/innoai-tech/infra v0.0.0-20260224030627-de456bcbfa2c
+	github.com/octohelm/courier v0.0.0-20260224022830-37ae4d696763
+	github.com/octohelm/enumeration v0.0.0-20260224023935-6eaef7930a8b
+	github.com/octohelm/gengo v0.0.0-20260224022252-ec6c2fc2f701
+	github.com/octohelm/objectkind v0.0.0-20260224050400-7a2bdf659f54
+	github.com/octohelm/storage v0.0.0-20260224030405-666727d09c84
+	github.com/octohelm/x v0.0.0-20260224043023-b48075b44477
 )
 
 require (
-	cuelang.org/go v0.14.2
-	github.com/go-json-experiment/json v0.0.0-20251027170946-4849db3c2f7e
+	cuelang.org/go v0.15.4
+	github.com/go-json-experiment/json v0.0.0-20260214004413-d219187c3433
 	github.com/lestrrat-go/jwx/v2 v2.1.6
-	golang.org/x/crypto v0.43.0
+	golang.org/x/crypto v0.48.0
 )
 
 require (
@@ -37,14 +37,14 @@ require (
 	github.com/lestrrat-go/option v1.0.1 // indirect
 	github.com/octohelm/idx v0.0.0-20250928052415-053bedbf5e1d // indirect
 	github.com/segmentio/asm v1.2.1 // indirect
-	github.com/spf13/cobra v1.10.1 // indirect
+	github.com/spf13/cobra v1.10.2 // indirect
 	github.com/spf13/pflag v1.0.10 // indirect
 	github.com/stretchr/testify v1.11.1 // indirect
-	golang.org/x/mod v0.29.0 // indirect
-	golang.org/x/net v0.46.0 // indirect
-	golang.org/x/sync v0.17.0 // indirect
-	golang.org/x/sys v0.37.0 // indirect
-	golang.org/x/text v0.30.0 // indirect
-	golang.org/x/tools v0.38.0 // indirect
+	golang.org/x/mod v0.33.0 // indirect
+	golang.org/x/net v0.50.0 // indirect
+	golang.org/x/sync v0.19.0 // indirect
+	golang.org/x/sys v0.41.0 // indirect
+	golang.org/x/text v0.34.0 // indirect
+	golang.org/x/tools v0.42.0 // indirect
 	mvdan.cc/gofumpt v0.9.2 // indirect
 )

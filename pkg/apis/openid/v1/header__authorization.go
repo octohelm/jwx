@@ -12,8 +12,8 @@ func ParseAuthorization(s string) (Authorization, error) {
 	if len(s) == 0 {
 		return nil, errors.New("invalid Authorization")
 	}
-	tokens := bytes.Split([]byte(s), []byte(";"))
-	for _, token := range tokens {
+	tokens := bytes.SplitSeq([]byte(s), []byte(";"))
+	for token := range tokens {
 		kv := bytes.Split(bytes.TrimSpace(token), []byte(" "))
 		v := ""
 		if len(kv) == 2 {

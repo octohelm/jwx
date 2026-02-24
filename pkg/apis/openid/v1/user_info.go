@@ -19,5 +19,5 @@ type UserInfo struct {
 	// 已验证手机号
 	PhoneNumberVerified bool `json:"phone_number_verified,omitzero"`
 	// 其他信息
-	Extra map[string]interface{} `json:",inline"`
+	Extra map[string]any `json:",inline"`
 }

@@ -70,7 +70,7 @@ func (m *MiddlewareProvider) Wrap(next http.Handler) http.Handler {
 func (m *MiddlewareProvider) writeError(ctx context.Context, rw http.ResponseWriter, err error) {
 	serr := statuserror.AsErrorResponse(err, "")
 
-	t, err := content.New(reflect.TypeOf(serr), "", "marshal")
+	t, err := content.New(reflect.TypeFor[*statuserror.ErrorResponse](), "", "marshal")
 	if err != nil {
 		logr.FromContext(ctx).Error(err)
 		return
