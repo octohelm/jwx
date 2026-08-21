@@ -1,6 +1,8 @@
 package v1
 
-import "cmp"
+import (
+	"cmp"
+)
 
 // ClientCredentialsGrant https://www.oauth.com/oauth2-servers/access-tokens/client-credentials/
 type ClientCredentialsGrant struct {

@@ -1,9 +1,6 @@
-gen:
-    go generate ./pkg/...
+# Go 工具链入口
+mod go "tool/go/justfile"
 
-test:
-    CGO_ENABLED=0 \
-      go test -failfast -count=1 ./pkg/...
-
-fmt:
-    go tool gofumpt -w -l .
+[group('meta')]
+default:
+    @just --list --list-submodules

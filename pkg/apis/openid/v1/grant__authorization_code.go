@@ -1,6 +1,8 @@
 package v1
 
-import "cmp"
+import (
+	"cmp"
+)
 
 // AuthorizationCodeGrant
 // https://www.oauth.com/oauth2-servers/access-tokens/authorization-code-request/

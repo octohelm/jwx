@@ -12,7 +12,7 @@ func TransformReadCloser(r io.ReadCloser, createWriter func(w io.Writer) (io.Wri
 	pr, pw := io.Pipe()
 
 	go func() {
-		_ = (func() (finalErr error) {
+		_ = func() (finalErr error) {
 			defer func() {
 				closeErr := r.Close()
 				if finalErr != nil {
@@ -36,7 +36,7 @@ func TransformReadCloser(r io.ReadCloser, createWriter func(w io.Writer) (io.Wri
 				}
 			}
 			return err
-		})()
+		}()
 	}()
 
 	return pr

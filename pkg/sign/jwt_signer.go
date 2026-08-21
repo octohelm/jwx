@@ -7,13 +7,13 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/lestrrat-go/jwx/v2/jwa"
-	"github.com/lestrrat-go/jwx/v2/jwk"
-	"github.com/lestrrat-go/jwx/v2/jwt"
-	"github.com/octohelm/jwx/internal/pkg/keygen"
+	"github.com/lestrrat-go/jwx/v4/jwa"
+	"github.com/lestrrat-go/jwx/v4/jwk"
+	"github.com/lestrrat-go/jwx/v4/jwt"
 	"github.com/octohelm/objectkind/pkg/idgen"
 	"github.com/octohelm/x/datauri"
 
+	"github.com/octohelm/jwx/internal/pkg/keygen"
 	pkgjwk "github.com/octohelm/jwx/pkg/jwk"
 )
 
@@ -85,7 +85,7 @@ func (s *JWTSigner) beforeInit(ctx context.Context) error {
 	}
 
 	rsaPrivateKey, err := keygen.FromRawREM(s.PrivateKey.Data, map[string]any{
-		jwk.AlgorithmKey: jwa.RS256,
+		jwk.AlgorithmKey: jwa.RS256(),
 		jwk.KeyUsageKey:  jwk.ForSignature,
 	})
 	if err != nil {
@@ -126,7 +126,7 @@ func (s *JWTSigner) Sign(ctx context.Context, opts ...Option) (string, uint64, e
 		return "", 0, err
 	}
 
-	signed, err := jwt.Sign(t, jwt.WithKey(jwa.RS256, s.privateKey))
+	signed, err := jwt.Sign(t, jwt.WithKey(jwa.RS256(), s.privateKey))
 	if err != nil {
 		return "", 0, err
 	}
@@ -142,7 +142,8 @@ func (s *JWTSigner) Validate(ctx context.Context, tokStr string, validates ...Va
 
 	return doValidate(keySet, tokStr, slices.Concat([]ValidateOption{
 		func(tok Token) error {
-			if tok.Issuer() != s.Issuer {
+			iss, _ := tok.Issuer()
+			if iss != s.Issuer {
 				return errors.New("非法签发方")
 			}
 			return nil

@@ -3,28 +3,28 @@ package sign
 import (
 	"context"
 	"encoding"
+	"encoding/json/v2"
 	"errors"
 	"fmt"
 	"sync/atomic"
 	"time"
 
-	"github.com/go-json-experiment/json"
-	"github.com/lestrrat-go/jwx/v2/jwk"
-	"github.com/lestrrat-go/jwx/v2/jwt"
+	"github.com/lestrrat-go/jwx/v4/jwk"
+	"github.com/lestrrat-go/jwx/v4/jwt"
 	"github.com/octohelm/courier/pkg/courierhttp"
 	"github.com/octohelm/courier/pkg/courierhttp/client"
+	sqltypetime "github.com/octohelm/storage/pkg/sqltype/time"
+	"github.com/octohelm/x/sync/singleflight"
+
 	"github.com/octohelm/jwx/internal/pkg/clientutil"
 	openidv1 "github.com/octohelm/jwx/pkg/apis/openid/v1"
-	sqltypetime "github.com/octohelm/storage/pkg/sqltype/time"
-	"github.com/octohelm/x/ptr"
-	"github.com/octohelm/x/sync/singleflight"
 )
 
 type ValidateOption func(t Token) error
 
 func WithClaimExpect[T comparable](key string, expects ...T) ValidateOption {
 	return func(t Token) error {
-		if v, ok := t.Get(key); ok {
+		if v, ok := t.Field(key); ok {
 			for _, expect := range expects {
 				switch vv := v.(type) {
 				case T:
@@ -105,7 +105,7 @@ func (s *jwtValidator) getCachedKeySet(ctx context.Context) (jwk.Set, error) {
 		return nil, err
 	}
 	if !hit {
-		s.expiredAt.Store(ptr.Ptr(time.Now().Add(s.TTL)))
+		s.expiredAt.Store(new(time.Now().Add(s.TTL)))
 	}
 	return keySet, nil
 }
@@ -168,7 +168,7 @@ func doValidate(keySet jwk.Set, tokStr string, validates ...ValidateOption) (Tok
 		}
 	}
 
-	if time.Until(tok.Expiration()) < 0 {
+	if exp, ok := tok.Expiration(); ok && time.Until(exp) < 0 {
 		return nil, &openidv1.ErrInvalidToken{
 			Reason: errors.New("token expired"),
 		}

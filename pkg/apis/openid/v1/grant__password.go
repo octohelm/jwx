@@ -1,6 +1,8 @@
 package v1
 
-import "cmp"
+import (
+	"cmp"
+)
 
 // PasswordGrant https://www.oauth.com/oauth2-servers/access-tokens/password-grant/
 type PasswordGrant struct {

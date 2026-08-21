@@ -9,9 +9,9 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/go-json-experiment/json"
+	"encoding/json/v2"
 	"github.com/innoai-tech/infra/pkg/configuration/testingutil"
-	"github.com/lestrrat-go/jwx/v2/jwk"
+	"github.com/lestrrat-go/jwx/v4/jwk"
 	"github.com/octohelm/courier/pkg/courierhttp/client"
 	"github.com/octohelm/jwx/pkg/encryption"
 	pkgjwk "github.com/octohelm/jwx/pkg/jwk"
@@ -46,8 +46,8 @@ func TestHttp(t *testing.T) {
 					return nil, err
 				}
 
-				pubKey := &rsa.PublicKey{}
-				if err := key.Raw(pubKey); err != nil {
+				pubKey, err := jwk.Export[*rsa.PublicKey](key)
+				if err != nil {
 					return nil, err
 				}
 				return pubKey, nil

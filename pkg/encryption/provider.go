@@ -9,14 +9,15 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/lestrrat-go/jwx/v2/jwa"
-	"github.com/lestrrat-go/jwx/v2/jwk"
+	"github.com/lestrrat-go/jwx/v4/jwa"
+	"github.com/lestrrat-go/jwx/v4/jwk"
+	"github.com/octohelm/x/datauri"
+	"github.com/octohelm/x/sync/singleflight"
+
 	"github.com/octohelm/jwx/internal/pkg/keygen"
 	"github.com/octohelm/jwx/pkg/encryption/internal"
 	encryptionhttp "github.com/octohelm/jwx/pkg/encryption/internal/http"
 	pkgjwk "github.com/octohelm/jwx/pkg/jwk"
-	"github.com/octohelm/x/datauri"
-	"github.com/octohelm/x/sync/singleflight"
 )
 
 type (
@@ -41,8 +42,8 @@ type Encrypter struct {
 }
 
 func (enc *Encrypter) Encrypt(ctx context.Context, payload []byte) ([]byte, error) {
-	pub := &rsa.PublicKey{}
-	if err := enc.publicKey.Raw(pub); err != nil {
+	pub, err := jwk.Export[*rsa.PublicKey](enc.publicKey)
+	if err != nil {
 		return nil, err
 	}
 	data, err := rsa.EncryptOAEP(sha1.New(), rand.Reader, pub, payload, nil)
@@ -57,8 +58,8 @@ func (enc *Encrypter) Decrypt(ctx context.Context, base64URLEncoded []byte) ([]b
 	if err != nil {
 		return nil, err
 	}
-	pk := &rsa.PrivateKey{}
-	if err := enc.privateKey.Raw(pk); err != nil {
+	pk, err := jwk.Export[*rsa.PrivateKey](enc.privateKey)
+	if err != nil {
 		return nil, err
 	}
 	return rsa.DecryptOAEP(sha1.New(), rand.Reader, pk, ciphertext, nil)
@@ -84,7 +85,7 @@ func (enc *Encrypter) afterInit(ctx context.Context) error {
 	}
 
 	rsaPrivateKey, err := keygen.FromRawREM(enc.PrivateKey.Data, map[string]any{
-		jwk.AlgorithmKey: jwa.RSA_OAEP,
+		jwk.AlgorithmKey: jwa.RSA_OAEP(),
 		jwk.KeyUsageKey:  jwk.ForEncryption,
 	})
 	if err != nil {

@@ -13,9 +13,10 @@ import (
 	"time"
 
 	"github.com/octohelm/courier/pkg/courierhttp/client"
-	openidv1 "github.com/octohelm/jwx/pkg/apis/openid/v1"
 	"github.com/octohelm/x/ptr"
 	"github.com/octohelm/x/sync/singleflight"
+
+	openidv1 "github.com/octohelm/jwx/pkg/apis/openid/v1"
 )
 
 type Authn struct {

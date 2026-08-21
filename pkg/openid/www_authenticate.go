@@ -3,6 +3,7 @@ package openid
 import (
 	"github.com/innoai-tech/infra/pkg/http/basehref"
 	"github.com/octohelm/courier/pkg/courierhttp"
+
 	openidv1 "github.com/octohelm/jwx/pkg/apis/openid/v1"
 )
 

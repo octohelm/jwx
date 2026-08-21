@@ -1,12 +1,12 @@
-//go:generate go tool devtool gen .
 package jwk
 
 import (
 	"context"
+	"encoding/json/v2"
 	"sync"
 
-	"github.com/go-json-experiment/json"
-	"github.com/lestrrat-go/jwx/v2/jwk"
+	"github.com/lestrrat-go/jwx/v4/jwk"
+
 	openidv1 "github.com/octohelm/jwx/pkg/apis/openid/v1"
 )
 

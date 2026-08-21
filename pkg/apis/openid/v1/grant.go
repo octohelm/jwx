@@ -1,7 +1,8 @@
 package v1
 
 import (
-	"github.com/go-json-experiment/json"
+	"encoding/json/v2"
+
 	"github.com/octohelm/courier/pkg/validator"
 	"github.com/octohelm/courier/pkg/validator/taggedunion"
 )

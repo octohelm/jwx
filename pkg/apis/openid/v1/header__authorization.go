@@ -2,9 +2,8 @@ package v1
 
 import (
 	"bytes"
+	"errors"
 	"net/http"
-
-	"cuelang.org/go/cue/errors"
 )
 
 func ParseAuthorization(s string) (Authorization, error) {

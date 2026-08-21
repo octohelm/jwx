@@ -1,6 +1,8 @@
 package internal
 
-import "context"
+import (
+	"context"
+)
 
 // +gengo:injectable:provider
 type Provider interface {

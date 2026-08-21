@@ -1,6 +1,8 @@
 package cipher
 
-import "errors"
+import (
+	"errors"
+)
 
 var (
 	ErrUnsupportedEncryptionMethod = errors.New("unsupported encryption method")

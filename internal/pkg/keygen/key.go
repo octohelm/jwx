@@ -4,12 +4,12 @@ import (
 	"crypto/sha256"
 	"encoding/base64"
 
-	"github.com/lestrrat-go/jwx/v2/jwk"
+	"github.com/lestrrat-go/jwx/v4/jwk"
 	"golang.org/x/crypto/pbkdf2"
 )
 
 func FromRawREM(pemFormatedPk []byte, headers map[string]any) (jwk.Key, error) {
-	v, _, err := jwk.DecodePEM(pemFormatedPk)
+	v, err := jwk.ParseKey(pemFormatedPk, jwk.WithX509(true))
 	if err != nil {
 		return nil, err
 	}
@@ -18,9 +18,15 @@ func FromRawREM(pemFormatedPk []byte, headers map[string]any) (jwk.Key, error) {
 }
 
 func FromRaw(v any, headers map[string]any) (jwk.Key, error) {
-	key, err := jwk.FromRaw(v)
-	if err != nil {
-		return nil, err
+	var key jwk.Key
+	if k, ok := v.(jwk.Key); ok {
+		key = k
+	} else {
+		var err error
+		key, err = jwk.Import[jwk.Key](v)
+		if err != nil {
+			return nil, err
+		}
 	}
 	for k := range headers {
 		if err := key.Set(k, headers[k]); err != nil {

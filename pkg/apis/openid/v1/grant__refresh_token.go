@@ -1,6 +1,8 @@
 package v1
 
-import "cmp"
+import (
+	"cmp"
+)
 
 // RefreshTokenGrant https://www.oauth.com/oauth2-servers/access-tokens/refreshing-access-tokens/
 type RefreshTokenGrant struct {

@@ -4,7 +4,7 @@ import (
 	"crypto/rand"
 	"crypto/rsa"
 
-	"github.com/lestrrat-go/jwx/v2/jwk"
+	"github.com/lestrrat-go/jwx/v4/jwk/jwkbb"
 )
 
 func NewRSAPrimaryKeyREM() ([]byte, error) {
@@ -12,5 +12,5 @@ func NewRSAPrimaryKeyREM() ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	return jwk.EncodePEM(pk)
+	return jwkbb.EncodePEM(pk)
 }

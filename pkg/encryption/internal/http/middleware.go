@@ -2,6 +2,7 @@ package http
 
 import (
 	"context"
+	"encoding/json/v2"
 	"fmt"
 	"io"
 	"mime"
@@ -11,12 +12,12 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/go-json-experiment/json"
 	"github.com/octohelm/courier/pkg/content"
 	"github.com/octohelm/courier/pkg/statuserror"
+	"github.com/octohelm/x/logr"
+
 	"github.com/octohelm/jwx/pkg/encryption/internal"
 	"github.com/octohelm/jwx/pkg/encryption/internal/cipher"
-	"github.com/octohelm/x/logr"
 )
 
 // +gengo:injectable:

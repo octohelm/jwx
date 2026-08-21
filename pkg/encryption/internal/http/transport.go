@@ -2,13 +2,14 @@ package http
 
 import (
 	"context"
+	"encoding/json/v2"
 	"fmt"
 	"mime"
 	"net/http"
 	"strings"
 
-	"github.com/go-json-experiment/json"
 	"github.com/octohelm/courier/pkg/courierhttp/client"
+
 	"github.com/octohelm/jwx/pkg/encryption/internal"
 	"github.com/octohelm/jwx/pkg/encryption/internal/cipher"
 )

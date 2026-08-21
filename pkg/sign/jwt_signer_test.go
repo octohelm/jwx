@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/go-json-experiment/json"
+	"encoding/json/v2"
 	"github.com/innoai-tech/infra/pkg/configuration/testingutil"
 	"github.com/octohelm/jwx/pkg/jwk"
 	"github.com/octohelm/objectkind/pkg/idgen"
@@ -48,9 +48,10 @@ func TestSigner(t *testing.T) {
 			b.When("validate", func(b bdd.T) {
 				tok, err := d.Validate(ctx, tokStr)
 
+				sub, _ := tok.Subject()
 				b.Then("be valid",
 					bdd.NoError(err),
-					bdd.Equal("test", tok.Subject()),
+					bdd.Equal("test", sub),
 				)
 			})
 
@@ -59,9 +60,10 @@ func TestSigner(t *testing.T) {
 					WithClaimExpect("sub_typ", "CLIENT"),
 				)
 
+				sub, _ := tok.Subject()
 				b.Then("be valid",
 					bdd.NoError(err),
-					bdd.Equal("test", tok.Subject()),
+					bdd.Equal("test", sub),
 				)
 			})
 
@@ -75,9 +77,10 @@ func TestSigner(t *testing.T) {
 
 				tok, err := v2.Validate(ctx, tokStr)
 
+				sub, _ := tok.Subject()
 				b.Then("be valid",
 					bdd.NoError(err),
-					bdd.Equal("test", tok.Subject()),
+					bdd.Equal("test", sub),
 				)
 			})
 		})
